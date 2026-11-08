@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f6f5ff">
+<title>RuangBelajar — Study Planner</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap');
+:root{--bg:#f6f5fb;--card:#fff;--ink:#25243a;--muted:#88879c;--purple:#7666df;--purple-dark:#5d4ec7;--lav:#efedff;--line:#eeedf4;--green:#269b72;--orange:#e69a45;--red:#df6b78;--shadow:0 12px 35px #34305b0c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}
+.app{max-width:1200px;margin:auto;padding:28px 24px 55px}.top{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:28px}.brand{display:flex;align-items:center;gap:11px;font:800 19px Manrope,sans-serif;letter-spacing:-.5px}.brand-icon{width:42px;height:42px;background:linear-gradient(145deg,#8d80f2,#6454cf);color:white;border-radius:14px;display:grid;place-items:center;font-size:21px;box-shadow:0 7px 16px #7666df35}.date-chip{background:white;border:1px solid var(--line);border-radius:30px;padding:10px 15px;color:#68677c;font-size:12px;font-weight:700}
+.greeting{display:flex;justify-content:space-between;align-items:end;gap:18px;margin-bottom:23px}.greeting h1{font:800 clamp(27px,4vw,37px) Manrope,sans-serif;letter-spacing:-1.2px;margin:0 0 7px}.greeting p{margin:0;color:var(--muted);font-size:14px}.greeting p strong{color:var(--purple)}
+.layout{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(275px,.85fr);gap:20px;align-items:start}.maincol,.sidecol{display:grid;gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:21px;box-shadow:var(--shadow)}.card-title{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:17px}.card-title h2{font:800 16px Manrope,sans-serif;margin:0}.sub{font-size:11px;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}.stat{padding:16px;border-radius:16px;background:#fff;border:1px solid var(--line)}.stat-top{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:11px;font-weight:700}.stat-icon{width:29px;height:29px;border-radius:10px;background:var(--lav);display:grid;place-items:center;color:var(--purple);font-size:14px}.stat-num{font:800 25px Manrope,sans-serif;margin-top:9px}.stat-note{font-size:10px;color:var(--muted);margin-top:2px}
+.progress-card{background:linear-gradient(120deg,#6f61d4,#897be9);color:white;border:0}.progress-card .card-title h2{color:white}.progress-card .sub{color:#e4e0ff}.progress-row{display:flex;justify-content:space-between;align-items:end;margin:10px 0 12px}.progress-number{font:800 34px Manrope,sans-serif}.progress-track{height:9px;background:#ffffff40;border-radius:20px;overflow:hidden}.progress-fill{height:100%;width:0;background:#fff;border-radius:20px;transition:width .3s}.progress-foot{display:flex;justify-content:space-between;margin-top:10px;color:#e9e6ff;font-size:10px}
+.add-form{display:grid;grid-template-columns:1fr 1fr;gap:11px}.field{display:grid;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:11px;font-weight:700;color:#6e6c83}.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);background:#fbfaff;border-radius:10px;padding:11px 12px;outline:none;color:var(--ink);font-size:12px}.field input:focus,.field select:focus,.field textarea:focus{border-color:#aaa0f0;box-shadow:0 0 0 3px #7666df14}.field textarea{resize:vertical;min-height:65px}.add-btn{border:0;background:var(--purple);color:white;border-radius:11px;padding:12px 17px;font-size:12px;font-weight:800}.add-btn:hover{background:var(--purple-dark)}
+.toolbar{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:13px;flex-wrap:wrap}.tabs{display:flex;gap:5px;background:#f5f4fa;padding:4px;border-radius:11px}.tab{border:0;background:transparent;color:#85839a;padding:7px 11px;border-radius:8px;font-size:11px;font-weight:700}.tab.active{background:#fff;color:var(--purple);box-shadow:0 2px 8px #28204b10}.search{border:1px solid var(--line);border-radius:10px;padding:8px 10px;width:170px;font-size:11px;outline:none}
+.task-list{display:grid;gap:9px}.task{display:grid;grid-template-columns:22px 1fr auto;align-items:start;gap:11px;padding:13px;border:1px solid var(--line);border-radius:13px;transition:.2s}.task:hover{border-color:#d8d3fa;background:#fdfcff}.check{appearance:none;width:18px;height:18px;border:1.7px solid #cbc8dc;border-radius:6px;margin:1px 0 0;cursor:pointer;position:relative}.check:checked{background:var(--purple);border-color:var(--purple)}.check:checked:after{content:'✓';position:absolute;color:white;font-size:12px;left:3px;top:-1px;font-weight:800}.task-name{font-size:12px;font-weight:800}.task.done .task-name{text-decoration:line-through;color:#aaa8b8}.task-meta{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-top:6px;color:var(--muted);font-size:10px}.pill{padding:4px 7px;border-radius:20px;background:#f1efff;color:#7666df;font-weight:700}.priority{font-weight:700}.priority.Tinggi{color:var(--red)}.priority.Sedang{color:var(--orange)}.priority.Rendah{color:var(--green)}.task-actions{display:flex;gap:5px}.icon-btn{border:0;background:#f6f5fa;color:#9693a8;border-radius:7px;width:27px;height:27px;font-size:12px}.icon-btn:hover{color:var(--purple);background:var(--lav)}.empty{text-align:center;color:var(--muted);padding:32px 12px;font-size:12px}.empty span{display:block;font-size:30px;margin-bottom:8px}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.day{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 3px;text-align:center;color:var(--muted)}.day small{display:block;font-size:9px;margin-bottom:7px}.day strong{font-size:13px;color:var(--ink)}.day.today{background:var(--lav);border-color:#d9d3ff}.day.today strong{color:var(--purple)}.day .mark{width:4px;height:4px;border-radius:50%;background:var(--purple);margin:6px auto 0}
+.tip{background:#fff8ed;border:1px solid #f8ead3;border-radius:15px;padding:16px}.tip strong{font-size:12px;color:#9d6a2e}.tip p{font-size:11px;line-height:1.6;color:#947c5e;margin:7px 0 0}
+.footer{text-align:center;color:#aaa8b8;font-size:10px;margin-top:25px}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.sidecol{grid-template-columns:1fr 1fr}.progress-card{grid-column:1/-1}}
+@media(max-width:580px){.app{padding:18px 13px 35px}.top{margin-bottom:23px}.date-chip{font-size:10px;padding:8px 10px}.greeting{align-items:start;flex-direction:column}.stats{gap:7px}.stat{padding:12px}.stat-num{font-size:21px}.card{padding:16px}.sidecol{grid-template-columns:1fr}.progress-card{grid-column:auto}.add-form{grid-template-columns:1fr}.field.full{grid-column:auto}.toolbar{align-items:stretch}.search{width:100%}.tabs{width:100%;justify-content:space-between}.tab{flex:1;padding:7px 4px}.task{grid-template-columns:20px 1fr auto;gap:8px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand"><span class="brand-icon">✦</span> RuangBelajar</div>
+    <div class="date-chip" id="todayLabel">📅 Hari ini</div>
+  </header>
+  <section class="greeting">
+    <div><h1>Rencanakan. Pelajari. <span style="color:var(--purple)">Berhasil.</span></h1><p>Halo! Yuk, susun kegiatan belajarmu dan capai target hari ini. 🌱</p></div>
+  </section>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-top">Total tugas <span class="stat-icon">▤</span></div><div class="stat-num" id="statTotal">0</div><div class="stat-note">Semua rencana belajar</div></div>
+    <div class="stat"><div class="stat-top">Belum selesai <span class="stat-icon">◷</span></div><div class="stat-num" id="statPending">0</div><div class="stat-note">Masih perlu dikerjakan</div></div>
+    <div class="stat"><div class="stat-top">Selesai <span class="stat-icon">✓</span></div><div class="stat-num" id="statDone">0</div><div class="stat-note">Langkah yang tercapai</div></div>
+  </div>
+
+  <div class="layout">
+    <div class="maincol">
+      <section class="card">
+        <div class="card-title"><h2>＋ Tambahkan rencana belajar</h2><span class="sub">Buat target baru</span></div>
+        <form id="taskForm" class="add-form">
+          <div class="field full"><label for="taskName">Nama kegiatan / materi</label><input id="taskName" required maxlength="90" placeholder="Contoh: Mempelajari jaringan komputer"></div>
+          <div class="field"><label for="subject">Mata pelajaran</label><input id="subject" maxlength="40" placeholder="Contoh: TJKT"></div>
+          <div class="field"><label for="taskDate">Tanggal target</label><input id="taskDate" type="date" required></div>
+          <div class="field"><label for="taskTime">Waktu belajar</label><input id="taskTime" type="time" value="19:00"></div>
+          <div class="field"><label for="priority">Prioritas</label><select id="priority"><option>Tinggi</option><option selected>Sedang</option><option>Rendah</option></select></div>
+          <div class="field full"><label for="notes">Catatan (opsional)</label><textarea id="notes" maxlength="180" placeholder="Tulis target kecil atau hal yang perlu disiapkan..."></textarea></div>
+          <div class="field full"><button class="add-btn" type="submit">＋ Simpan Rencana</button></div>
+        </form>
+      </section>
+
+      <section class="card">
+        <div class="card-title"><h2>Daftar kegiatan</h2><span class="sub" id="listCount">0 kegiatan</span></div>
+        <div class="toolbar">
+          <div class="tabs" id="tabs">
+            <button class="tab active" data-filter="Semua">Semua</button><button class="tab" data-filter="Aktif">Aktif</button><button class="tab" data-filter="Selesai">Selesai</button>
+          </div>
+          <input class="search" id="search" placeholder="⌕ Cari kegiatan...">
+        </div>
+        <div class="task-list" id="taskList"></div>
+      </section>
+    </div>
+
+    <aside class="sidecol">
+      <section class="card progress-card">
+        <div class="card-title"><h2>Progres belajarmu</h2><span class="sub">Keseluruhan</span></div>
+        <div class="progress-row"><div><div class="sub">Target yang sudah tercapai</div><div class="progress-number" id="progressPercent">0%</div></div><div style="font-size:35px">🎯</div></div>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-foot"><span id="progressDone">0 selesai</span><span id="progressLeft">0 tersisa</span></div>
+      </section>
+
+      <section class="card">
+        <div class="card-title"><h2>Kalender mingguan</h2><span class="sub">7 hari</span></div>
+        <div class="week" id="week"></div>
+      </section>
+
+      <section class="tip">
+        <strong>💡 Tips belajar hari ini</strong>
+        <p>Gunakan teknik Pomodoro: fokus belajar selama 25 menit, lalu istirahat 5 menit. Ulangi agar tetap produktif tanpa cepat lelah.</p>
+      </section>
+    </aside>
+  </div>
+  <div class="footer">RuangBelajar · Atur waktumu, raih tujuanmu. Data tersimpan di browser perangkat ini.</div>
+</div>
+<script>
+const KEY='ruangbelajar_tasks_v1';
+let tasks=[];
+try{tasks=JSON.parse(localStorage.getItem(KEY)||'[]');if(!Array.isArray(tasks))tasks=[]}catch(e){tasks=[]}
+let filter='Semua',query='';
+const $=id=>document.getElementById(id);
+const today=new Date();today.setHours(0,0,0,0);
+const dateISO=d=>{const x=new Date(d.getTime()-d.getTimezoneOffset()*60000);return x.toISOString().slice(0,10)};
+const fmtDate=s=>new Date(s+'T00:00:00').toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});
+const save=()=>localStorage.setItem(KEY,JSON.stringify(tasks));
+$('todayLabel').textContent='📅 '+today.toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+$('taskDate').value=dateISO(today);
+function render(){
+ const done=tasks.filter(t=>t.done).length,pending=tasks.length-done,pct=tasks.length?Math.round(done/tasks.length*100):0;
+ $('statTotal').textContent=tasks.length;$('statPending').textContent=pending;$('statDone').textContent=done;
+ $('progressPercent').textContent=pct+'%';$('progressFill').style.width=pct+'%';$('progressDone').textContent=done+' selesai';$('progressLeft').textContent=pending+' tersisa';
+ const shown=tasks.filter(t=>(filter==='Semua'||(filter==='Aktif'?!t.done:t.done))&&(t.name+' '+t.subject+' '+t.notes).toLowerCase().includes(query));
+ $('listCount').textContent=shown.length+' kegiatan';
+ $('taskList').innerHTML=shown.length?shown.sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time)).map(t=>`
+ <article class="task ${t.done?'done':''}">
+  <input class="check" type="checkbox" aria-label="Tandai selesai" ${t.done?'checked':''} onchange="toggleTask('${t.id}')">
+  <div><div class="task-name">${escapeHTML(t.name)}</div><div class="task-meta"><span>📚 ${escapeHTML(t.subject||'Belajar mandiri')}</span><span>📅 ${fmtDate(t.date)}</span><span>◷ ${t.time||'--:--'}</span><span class="priority ${t.priority}">● ${t.priority}</span></div>${t.notes?`<div class="task-meta">✎ ${escapeHTML(t.notes)}</div>`:''}</div>
+  <div class="task-actions"><button class="icon-btn" title="Hapus kegiatan" onclick="deleteTask('${t.id}')">✕</button></div>
+ </article>`).join(''):`<div class="empty"><span>${query?'🔎':'📖'}</span>${query?'Tidak ada kegiatan yang cocok.':'Belum ada rencana belajar. Tambahkan kegiatan pertamamu!'}</div>`;
+ renderWeek();
+}
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function toggleTask(id){const t=tasks.find(x=>x.id===id);if(t){t.done=!t.done;save();render()}}
+function deleteTask(id){if(confirm('Hapus rencana belajar ini?')){tasks=tasks.filter(t=>t.id!==id);save();render()}}
+function renderWeek(){
+ const start=new Date(today);start.setDate(today.getDate()-((today.getDay()+6)%7));
+ $('week').innerHTML=Array.from({length:7},(_,i)=>{const d=new Date(start);d.setDate(start.getDate()+i);const iso=dateISO(d),has=tasks.some(t=>t.date===iso);return `<div class="day ${iso===dateISO(today)?'today':''}"><small>${d.toLocaleDateString('id-ID',{weekday:'short'})}</small><strong>${d.getDate()}</strong>${has?'<div class="mark"></div>':''}</div>`}).join('');
+}
+$('taskForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ tasks.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),name:$('taskName').value.trim(),subject:$('subject').value.trim(),date:$('taskDate').value,time:$('taskTime').value,priority:$('priority').value,notes:$('notes').value.trim(),done:false});
+ save();e.target.reset();$('taskDate').value=dateISO(today);$('taskTime').value='19:00';$('priority').value='Sedang';render();$('taskName').focus();
+});
+$('tabs').addEventListener('click',e=>{const b=e.target.closest('[data-filter]');if(!b)return;filter=b.dataset.filter;document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));render()});
+$('search').addEventListener('input',e=>{query=e.target.value.toLowerCase().trim();render()});
+render();
+</script>
+</body>
+</html>
